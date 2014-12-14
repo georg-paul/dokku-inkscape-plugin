@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+APP="$1"; IMAGE="dokku/$APP"
+
+echo "-----> Injecting Inkscape ..."
+
+set -e
+
+CMD="cat > inkscape && \
+  dpkg -s inkscape > /dev/null 2>&1 || \
+  (sudo add-apt-repository ppa:inkscape.dev/stable && sudo apt-get update && sudo apt-get install install && sudo apt-get clean)"
+
+ID=$(docker run -i -a stdin $IMAGE /bin/bash -c "$CMD")
+test $(docker wait $ID) -eq 0
+docker commit $ID $IMAGE > /dev/null
