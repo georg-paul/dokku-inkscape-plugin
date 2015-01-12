@@ -1,7 +1,5 @@
-#!/bin/bash
-set -e
-
-IMAGE="progrium/buildstep"
+#!/usr/bin/env bash
+set -eo pipefail; [[ $DOKKU_TRACE ]] && set -x
 
 CMD="add-apt-repository ppa:inkscape.dev/stable && apt-get update && apt-get install inkscape && apt-get clean"
 
